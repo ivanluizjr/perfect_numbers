@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
 import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/core/theme/app_text_styles.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/cubits/range_search/range_search_cubit.dart';
@@ -41,9 +42,9 @@ class _SearchViewState extends State<_SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.of(context).background,
       appBar: AppBar(
-        title: const Text('Buscar em Intervalo'),
+        title: Text(context.l10n.searchTitle),
         automaticallyImplyLeading: false,
       ),
       body: CustomScrollView(
@@ -55,16 +56,16 @@ class _SearchViewState extends State<_SearchView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Encontre Números Perfeitos',
+                    context.l10n.findTitle,
                     style: AppTextStyles.headlineMedium.copyWith(
-                      color: AppColors.textPrimary,
+                      color: AppColors.of(context).textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Ex: 6 e 28 são os primeiros números perfeitos.',
+                    context.l10n.findSubtitle,
                     style: AppTextStyles.bodySmall.copyWith(
-                      color: AppColors.primary,
+                      color: AppColors.of(context).primary,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -75,17 +76,17 @@ class _SearchViewState extends State<_SearchView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Início',
+                              context.l10n.rangeStart,
                               style: AppTextStyles.labelMedium.copyWith(
-                                color: AppColors.textSecondary,
+                                color: AppColors.of(context).textSecondary,
                               ),
                             ),
                             const SizedBox(height: 8),
                             TextField(
                               controller: _startController,
                               keyboardType: TextInputType.number,
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
+                              style: TextStyle(
+                                color: AppColors.of(context).textPrimary,
                                 fontSize: 16,
                               ),
                               decoration: const InputDecoration(hintText: '1'),
@@ -99,17 +100,17 @@ class _SearchViewState extends State<_SearchView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Fim',
+                              context.l10n.rangeEnd,
                               style: AppTextStyles.labelMedium.copyWith(
-                                color: AppColors.textSecondary,
+                                color: AppColors.of(context).textSecondary,
                               ),
                             ),
                             const SizedBox(height: 8),
                             TextField(
                               controller: _endController,
                               keyboardType: TextInputType.number,
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
+                              style: TextStyle(
+                                color: AppColors.of(context).textPrimary,
                                 fontSize: 16,
                               ),
                               decoration: const InputDecoration(
@@ -129,7 +130,7 @@ class _SearchViewState extends State<_SearchView> {
                           _endController.text,
                         ),
                     icon: const Icon(Icons.grid_view_rounded),
-                    label: const Text('Encontrar Números Perfeitos'),
+                    label: Text(context.l10n.findButton),
                   ),
                   const SizedBox(height: 8),
                 ],
@@ -139,12 +140,12 @@ class _SearchViewState extends State<_SearchView> {
           BlocBuilder<RangeSearchCubit, RangeSearchState>(
             builder: (context, state) {
               if (state is RangeSearchLoading) {
-                return const SliverToBoxAdapter(
+                return SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(40),
                     child: Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.primary,
+                        color: AppColors.of(context).primary,
                       ),
                     ),
                   ),
@@ -160,16 +161,18 @@ class _SearchViewState extends State<_SearchView> {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.errorSubtle,
+                        color: AppColors.of(context).errorSubtle,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: AppColors.error.withValues(alpha: 0.4),
+                          color: AppColors.of(
+                            context,
+                          ).error.withValues(alpha: 0.4),
                         ),
                       ),
                       child: Text(
                         state.message,
                         style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.error,
+                          color: AppColors.of(context).error,
                         ),
                       ),
                     ),
@@ -177,11 +180,11 @@ class _SearchViewState extends State<_SearchView> {
                 );
               }
               if (state is RangeSearchEmpty) {
-                return const SliverFillRemaining(
+                return SliverFillRemaining(
                   child: EmptyStateWidget(
                     icon: Icons.search_off_rounded,
-                    message: 'Nenhum número perfeito encontrado',
-                    subtitle: 'Tente um intervalo maior, como 1 a 10000.',
+                    message: context.l10n.noResultsFound,
+                    subtitle: context.l10n.tryLargerRange,
                   ),
                 );
               }
@@ -192,8 +195,9 @@ class _SearchViewState extends State<_SearchView> {
                     delegate: SliverChildBuilderDelegate((context, i) {
                       if (i == 0) {
                         return SectionHeaderWidget(
-                          title:
-                              'Resultados encontrados (${state.results.length})',
+                          title: context.l10n.resultsFound(
+                            state.results.length,
+                          ),
                         );
                       }
                       return PerfectNumberCardWidget(
@@ -204,13 +208,13 @@ class _SearchViewState extends State<_SearchView> {
                 );
               }
               // Initial / empty hint
-              return const SliverToBoxAdapter(
+              return SliverToBoxAdapter(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 40),
+                  padding: const EdgeInsets.only(top: 40),
                   child: EmptyStateWidget(
                     icon: Icons.bar_chart_rounded,
-                    message: 'Continue explorando novos intervalos',
-                    subtitle: 'para descobrir propriedades matemáticas.',
+                    message: context.l10n.exploreRanges,
+                    subtitle: context.l10n.discoverMath,
                   ),
                 ),
               );

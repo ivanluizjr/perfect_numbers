@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
 import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/cubits/main/main_cubit.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/pages/history/history_page.dart';
@@ -19,11 +20,23 @@ class MainPage extends StatelessWidget {
     SettingsPage(),
   ];
 
-  static const _navItems = [
-    BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Início'),
-    BottomNavigationBarItem(icon: Icon(Icons.search_rounded), label: 'Buscar'),
-    BottomNavigationBarItem(icon: Icon(Icons.history_rounded), label: 'Histórico'),
-    BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: 'Ajustes'),
+  List<BottomNavigationBarItem> _buildNavItems(BuildContext context) => [
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.home_rounded),
+      label: context.l10n.navHome,
+    ),
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.search_rounded),
+      label: context.l10n.navSearch,
+    ),
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.history_rounded),
+      label: context.l10n.navHistory,
+    ),
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.settings_rounded),
+      label: context.l10n.navSettings,
+    ),
   ];
 
   @override
@@ -35,13 +48,18 @@ class MainPage extends StatelessWidget {
           return Scaffold(
             body: IndexedStack(index: selectedIndex, children: _tabs),
             bottomNavigationBar: Container(
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: AppColors.border, width: 0.5)),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: AppColors.of(context).border,
+                    width: 0.5,
+                  ),
+                ),
               ),
               child: BottomNavigationBar(
                 currentIndex: selectedIndex,
                 onTap: (i) => context.read<MainCubit>().selectTab(i),
-                items: _navItems,
+                items: _buildNavItems(context),
               ),
             ),
           );

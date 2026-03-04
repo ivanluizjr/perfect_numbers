@@ -14,9 +14,11 @@ class PerfectNumberCardWidget extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+        border: Border.all(
+          color: AppColors.of(context).border.withValues(alpha: 0.5),
+        ),
       ),
       child: Row(
         children: [
@@ -24,14 +26,14 @@ class PerfectNumberCardWidget extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: AppColors.primaryDark,
+              color: AppColors.of(context).primaryDark,
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
             child: Text(
               '${result.number}',
               style: AppTextStyles.titleMedium.copyWith(
-                color: AppColors.primary,
+                color: AppColors.of(context).primary,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -60,9 +62,9 @@ class PerfectNumberCardWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Icon(
+          Icon(
             Icons.verified_rounded,
-            color: AppColors.primary,
+            color: AppColors.of(context).primary,
             size: 24,
           ),
         ],

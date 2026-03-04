@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
 import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/core/theme/app_text_styles.dart';
 import 'package:perfect_numbers/app/features/perfect_number/domain/entities/history_entry.dart';
@@ -28,9 +29,9 @@ class _HistoryView extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.of(context).background,
         appBar: AppBar(
-          title: const Text('Histórico'),
+          title: Text(context.l10n.historyTitle),
           automaticallyImplyLeading: false,
           actions: [
             BlocBuilder<HistoryCubit, HistoryState>(
@@ -38,7 +39,7 @@ class _HistoryView extends StatelessWidget {
                 if (state is HistoryLoaded) {
                   return IconButton(
                     icon: const Icon(Icons.delete_sweep_rounded),
-                    color: AppColors.primary,
+                    color: AppColors.of(context).primary,
                     onPressed: () => _confirmClear(context),
                   );
                 }
@@ -46,23 +47,27 @@ class _HistoryView extends StatelessWidget {
               },
             ),
           ],
-          bottom: const TabBar(
-            tabs: [Tab(text: 'Todos'), Tab(text: 'Favoritos')],
+          bottom: TabBar(
+            tabs: [
+              Tab(text: context.l10n.tabAll),
+              Tab(text: context.l10n.tabFavorites),
+            ],
           ),
         ),
         body: BlocBuilder<HistoryCubit, HistoryState>(
           builder: (context, state) {
             if (state is HistoryLoading) {
-              return const Center(
-                child: CircularProgressIndicator(color: AppColors.primary),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.of(context).primary,
+                ),
               );
             }
             if (state is HistoryEmpty) {
-              return const EmptyStateWidget(
+              return EmptyStateWidget(
                 icon: Icons.history_rounded,
-                message: 'Nenhum histórico ainda',
-                subtitle:
-                    'Verifique ou busque números perfeitos para ver o histórico aqui.',
+                message: context.l10n.noHistory,
+                subtitle: context.l10n.noHistorySubtitle,
               );
             }
             if (state is HistoryLoaded) {
@@ -70,9 +75,9 @@ class _HistoryView extends StatelessWidget {
                 children: [
                   _HistoryList(entries: state.entries),
                   state.favorites.isEmpty
-                      ? const EmptyStateWidget(
+                      ? EmptyStateWidget(
                         icon: Icons.favorite_border_rounded,
-                        message: 'Nenhum favorito ainda',
+                        message: context.l10n.noFavorites,
                       )
                       : _HistoryList(entries: state.favorites),
                 ],
@@ -90,27 +95,30 @@ class _HistoryView extends StatelessWidget {
       context: context,
       builder:
           (_) => AlertDialog(
-            backgroundColor: AppColors.card,
+            backgroundColor: AppColors.of(context).card,
             title: Text(
-              'Limpar histórico',
+              context.l10n.clearHistory,
               style: AppTextStyles.titleLarge.copyWith(
-                color: AppColors.textPrimary,
+                color: AppColors.of(context).textPrimary,
               ),
             ),
             content: Text(
-              'Todos os registros serão apagados.',
+              context.l10n.clearHistoryConfirm,
               style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.textSecondary,
+                color: AppColors.of(context).textSecondary,
               ),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('Cancelar'),
+                child: Text(context.l10n.cancel),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: Text('Limpar', style: TextStyle(color: AppColors.error)),
+                child: Text(
+                  context.l10n.clear,
+                  style: TextStyle(color: AppColors.of(context).error),
+                ),
               ),
             ],
           ),
@@ -127,7 +135,7 @@ class _HistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final grouped = _groupByDate(entries);
+    final grouped = _groupByDate(context, entries);
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: grouped.keys.length,
@@ -154,7 +162,10 @@ class _HistoryList extends StatelessWidget {
     );
   }
 
-  Map<String, List<HistoryEntry>> _groupByDate(List<HistoryEntry> entries) {
+  Map<String, List<HistoryEntry>> _groupByDate(
+    BuildContext context,
+    List<HistoryEntry> entries,
+  ) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
@@ -164,9 +175,9 @@ class _HistoryList extends StatelessWidget {
       final d = DateTime(e.timestamp.year, e.timestamp.month, e.timestamp.day);
       final String label;
       if (d == today) {
-        label = 'Hoje';
+        label = context.l10n.today;
       } else if (d == yesterday) {
-        label = 'Ontem';
+        label = context.l10n.yesterday;
       } else {
         label =
             '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
@@ -191,35 +202,37 @@ class _HistoryEntryCard extends StatelessWidget {
     final title =
         isSingle
             ? (entry.singleResult?.isPerfect == true
-                ? '${entry.singleResult!.number} é um número perfeito'
-                : '${entry.singleResult?.number} não é perfeito')
-            : 'Intervalo: ${entry.rangeStart} a ${entry.rangeEnd}';
+                ? context.l10n.historyIsPerfect(entry.singleResult!.number)
+                : context.l10n.historyIsNotPerfect(entry.singleResult?.number))
+            : context.l10n.historyInterval(entry.rangeStart, entry.rangeEnd);
 
     final subtitle =
         isSingle
-            ? (entry.singleResult != null ? 'Verificação de número único' : '')
-            : '${entry.rangeResults?.length ?? 0} perfeito(s) encontrado(s)';
+            ? (entry.singleResult != null ? context.l10n.singleCheck : '')
+            : context.l10n.historyResultsCount(entry.rangeResults?.length ?? 0);
 
     final thumbnailText =
         isSingle ? '${entry.singleResult?.number ?? ''}' : '#';
 
     final thumbnailColor =
         isSingle && entry.singleResult?.isPerfect == true
-            ? AppColors.primaryDark
-            : AppColors.surfaceVariant;
+            ? AppColors.of(context).primaryDark
+            : AppColors.of(context).surfaceVariant;
 
     final thumbnailTextColor =
         isSingle && entry.singleResult?.isPerfect == true
-            ? AppColors.primary
-            : AppColors.textMuted;
+            ? AppColors.of(context).primary
+            : AppColors.of(context).textMuted;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+        border: Border.all(
+          color: AppColors.of(context).border.withValues(alpha: 0.5),
+        ),
       ),
       child: Row(
         children: [
@@ -229,16 +242,16 @@ class _HistoryEntryCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.access_time_rounded,
                       size: 14,
-                      color: AppColors.textMuted,
+                      color: AppColors.of(context).textMuted,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       timeStr,
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.textMuted,
+                        color: AppColors.of(context).textMuted,
                       ),
                     ),
                   ],
@@ -247,14 +260,14 @@ class _HistoryEntryCard extends StatelessWidget {
                 Text(
                   title,
                   style: AppTextStyles.titleMedium.copyWith(
-                    color: AppColors.textPrimary,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
                   style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -269,15 +282,21 @@ class _HistoryEntryCard extends StatelessWidget {
                           vertical: 6,
                         ),
                         side: BorderSide(
-                          color: AppColors.primary.withValues(alpha: 0.5),
+                          color: AppColors.of(
+                            context,
+                          ).primary.withValues(alpha: 0.5),
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        foregroundColor: AppColors.primary,
+                        foregroundColor: AppColors.of(context).primary,
                         textStyle: AppTextStyles.labelSmall,
                       ),
-                      child: Text(isSingle ? 'Ver detalhes' : 'Ver lista'),
+                      child: Text(
+                        isSingle
+                            ? context.l10n.viewDetails
+                            : context.l10n.viewList,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     GestureDetector(
@@ -289,8 +308,8 @@ class _HistoryEntryCard extends StatelessWidget {
                         size: 20,
                         color:
                             entry.isFavorite
-                                ? AppColors.primary
-                                : AppColors.textMuted,
+                                ? AppColors.of(context).primary
+                                : AppColors.of(context).textMuted,
                       ),
                     ),
                   ],

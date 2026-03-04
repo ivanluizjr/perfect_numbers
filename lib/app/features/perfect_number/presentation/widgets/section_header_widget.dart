@@ -14,7 +14,7 @@ class SectionHeaderWidget extends StatelessWidget {
       child: Text(
         title.toUpperCase(),
         style: AppTextStyles.labelSmall.copyWith(
-          color: AppColors.primary,
+          color: AppColors.of(context).primary,
           letterSpacing: 1.5,
         ),
       ),
