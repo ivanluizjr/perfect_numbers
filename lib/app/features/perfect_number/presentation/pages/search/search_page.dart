@@ -41,7 +41,7 @@ class _SearchViewState extends State<_SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.of(context).background,
       appBar: AppBar(
         title: const Text('Buscar em Intervalo'),
         automaticallyImplyLeading: false,
@@ -57,7 +57,7 @@ class _SearchViewState extends State<_SearchView> {
                   Text(
                     'Encontre Números Perfeitos',
                     style: AppTextStyles.headlineMedium.copyWith(
-                      color: AppColors.textPrimary,
+                      color: AppColors.of(context).textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -77,15 +77,15 @@ class _SearchViewState extends State<_SearchView> {
                             Text(
                               'Início',
                               style: AppTextStyles.labelMedium.copyWith(
-                                color: AppColors.textSecondary,
+                                color: AppColors.of(context).textSecondary,
                               ),
                             ),
                             const SizedBox(height: 8),
                             TextField(
                               controller: _startController,
                               keyboardType: TextInputType.number,
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
+                              style: TextStyle(
+                                color: AppColors.of(context).textPrimary,
                                 fontSize: 16,
                               ),
                               decoration: const InputDecoration(hintText: '1'),
@@ -101,15 +101,15 @@ class _SearchViewState extends State<_SearchView> {
                             Text(
                               'Fim',
                               style: AppTextStyles.labelMedium.copyWith(
-                                color: AppColors.textSecondary,
+                                color: AppColors.of(context).textSecondary,
                               ),
                             ),
                             const SizedBox(height: 8),
                             TextField(
                               controller: _endController,
                               keyboardType: TextInputType.number,
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
+                              style: TextStyle(
+                                color: AppColors.of(context).textPrimary,
                                 fontSize: 16,
                               ),
                               decoration: const InputDecoration(
@@ -160,7 +160,7 @@ class _SearchViewState extends State<_SearchView> {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.errorSubtle,
+                        color: AppColors.of(context).errorSubtle,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: AppColors.error.withValues(alpha: 0.4),

@@ -22,8 +22,14 @@ class MainPage extends StatelessWidget {
   static const _navItems = [
     BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Início'),
     BottomNavigationBarItem(icon: Icon(Icons.search_rounded), label: 'Buscar'),
-    BottomNavigationBarItem(icon: Icon(Icons.history_rounded), label: 'Histórico'),
-    BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: 'Ajustes'),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.history_rounded),
+      label: 'Histórico',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.settings_rounded),
+      label: 'Ajustes',
+    ),
   ];
 
   @override
@@ -35,8 +41,13 @@ class MainPage extends StatelessWidget {
           return Scaffold(
             body: IndexedStack(index: selectedIndex, children: _tabs),
             bottomNavigationBar: Container(
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: AppColors.border, width: 0.5)),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: AppColors.of(context).border,
+                    width: 0.5,
+                  ),
+                ),
               ),
               child: BottomNavigationBar(
                 currentIndex: selectedIndex,

@@ -89,20 +89,20 @@ class _OnboardingViewState extends State<_OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.of(context).background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Explorar',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: AppColors.of(context).textPrimary,
             fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.close, color: AppColors.textPrimary),
+          icon: Icon(Icons.close, color: AppColors.of(context).textPrimary),
           onPressed: () => _finish(context),
         ),
       ),
@@ -149,7 +149,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
                 child: Text(
                   'Pular introdução',
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
               ),
@@ -176,7 +176,7 @@ class _SlidePage extends StatelessWidget {
           Container(
             height: 280,
             decoration: BoxDecoration(
-              color: AppColors.surfaceVariant,
+              color: AppColors.of(context).surfaceVariant,
               borderRadius: BorderRadius.circular(24),
             ),
             child: Center(
@@ -187,7 +187,7 @@ class _SlidePage extends StatelessWidget {
           Text(
             slide.title,
             style: AppTextStyles.displaySmall.copyWith(
-              color: AppColors.textPrimary,
+              color: AppColors.of(context).textPrimary,
               fontWeight: FontWeight.w700,
             ),
             textAlign: TextAlign.center,
@@ -196,7 +196,7 @@ class _SlidePage extends StatelessWidget {
           Text(
             slide.subtitle,
             style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.textSecondary,
+              color: AppColors.of(context).textSecondary,
             ),
             textAlign: TextAlign.center,
           ),

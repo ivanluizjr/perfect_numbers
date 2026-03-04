@@ -28,7 +28,7 @@ class _HistoryView extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.of(context).background,
         appBar: AppBar(
           title: const Text('Histórico'),
           automaticallyImplyLeading: false,
@@ -90,17 +90,17 @@ class _HistoryView extends StatelessWidget {
       context: context,
       builder:
           (_) => AlertDialog(
-            backgroundColor: AppColors.card,
+            backgroundColor: AppColors.of(context).card,
             title: Text(
               'Limpar histórico',
               style: AppTextStyles.titleLarge.copyWith(
-                color: AppColors.textPrimary,
+                color: AppColors.of(context).textPrimary,
               ),
             ),
             content: Text(
               'Todos os registros serão apagados.',
               style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.textSecondary,
+                color: AppColors.of(context).textSecondary,
               ),
             ),
             actions: [
@@ -142,7 +142,7 @@ class _HistoryList extends StatelessWidget {
               child: Text(
                 dateLabel.toUpperCase(),
                 style: AppTextStyles.labelSmall.copyWith(
-                  color: AppColors.textMuted,
+                  color: AppColors.of(context).textMuted,
                   letterSpacing: 1.2,
                 ),
               ),
@@ -206,20 +206,22 @@ class _HistoryEntryCard extends StatelessWidget {
     final thumbnailColor =
         isSingle && entry.singleResult?.isPerfect == true
             ? AppColors.primaryDark
-            : AppColors.surfaceVariant;
+            : AppColors.of(context).surfaceVariant;
 
     final thumbnailTextColor =
         isSingle && entry.singleResult?.isPerfect == true
             ? AppColors.primary
-            : AppColors.textMuted;
+            : AppColors.of(context).textMuted;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+        border: Border.all(
+          color: AppColors.of(context).border.withValues(alpha: 0.5),
+        ),
       ),
       child: Row(
         children: [
@@ -229,16 +231,16 @@ class _HistoryEntryCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.access_time_rounded,
                       size: 14,
-                      color: AppColors.textMuted,
+                      color: AppColors.of(context).textMuted,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       timeStr,
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.textMuted,
+                        color: AppColors.of(context).textMuted,
                       ),
                     ),
                   ],
@@ -247,14 +249,14 @@ class _HistoryEntryCard extends StatelessWidget {
                 Text(
                   title,
                   style: AppTextStyles.titleMedium.copyWith(
-                    color: AppColors.textPrimary,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
                   style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -290,7 +292,7 @@ class _HistoryEntryCard extends StatelessWidget {
                         color:
                             entry.isFavorite
                                 ? AppColors.primary
-                                : AppColors.textMuted,
+                                : AppColors.of(context).textMuted,
                       ),
                     ),
                   ],
