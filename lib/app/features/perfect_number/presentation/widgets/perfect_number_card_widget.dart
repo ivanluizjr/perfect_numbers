@@ -14,9 +14,11 @@ class PerfectNumberCardWidget extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: AppColors.of(context).card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+        border: Border.all(
+          color: AppColors.of(context).border.withValues(alpha: 0.5),
+        ),
       ),
       child: Row(
         children: [
@@ -44,7 +46,7 @@ class PerfectNumberCardWidget extends StatelessWidget {
                 Text(
                   'Número Perfeito',
                   style: AppTextStyles.titleMedium.copyWith(
-                    color: AppColors.textPrimary,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -53,7 +55,7 @@ class PerfectNumberCardWidget extends StatelessWidget {
                       ? 'Divisores: ${result.divisorsExpression}'
                       : 'Soma dos divisores igual ao número',
                   style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
               ],

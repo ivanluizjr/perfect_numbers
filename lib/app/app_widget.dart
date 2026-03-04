@@ -18,7 +18,8 @@ class AppWidget extends StatelessWidget {
       value: sl<SettingsCubit>(),
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, settings) {
-          final onboardingSeen = GetIt.I<HistoryLocalDataSource>().onboardingSeen;
+          final onboardingSeen =
+              GetIt.I<HistoryLocalDataSource>().onboardingSeen;
           return MaterialApp(
             title: 'Números Perfeitos',
             debugShowCheckedModeBanner: false,
@@ -27,12 +28,18 @@ class AppWidget extends StatelessWidget {
             themeMode: settings.themeMode,
             initialRoute: onboardingSeen ? Routes.main : Routes.onboarding,
             onGenerateRoute: Routes.onGenerateRoute,
-            locale: settings.language == 'English' ? const Locale('en', 'US') : const Locale('pt', 'BR'),
+            locale:
+                settings.language == 'English'
+                    ? const Locale('en', 'US')
+                    : const Locale('pt', 'BR'),
             builder: (context, child) {
               final mq = MediaQuery.of(context);
               return MediaQuery(
                 data: mq.copyWith(
-                  textScaler: mq.textScaler.clamp(minScaleFactor: 0.85, maxScaleFactor: 1.2),
+                  textScaler: mq.textScaler.clamp(
+                    minScaleFactor: 0.85,
+                    maxScaleFactor: 1.2,
+                  ),
                 ),
                 child: child ?? const SizedBox.shrink(),
               );
