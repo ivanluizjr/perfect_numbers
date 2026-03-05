@@ -79,10 +79,10 @@ class AppColors {
 
   // ── Theme-aware accessor ──────────────────────────────────────────────────
   static AppThemeColors of(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? _dark : _light;
+    return Theme.of(context).brightness == Brightness.dark ? dark : light;
   }
 
-  static const _dark = AppThemeColors(
+  static const dark = AppThemeColors(
     background: Color(0xFF0D2417),
     surface: Color(0xFF132D1E),
     surfaceVariant: Color(0xFF1A3A26),
@@ -114,7 +114,7 @@ class AppColors {
     overlay: Color(0x80000000),
   );
 
-  static const _light = AppThemeColors(
+  static const light = AppThemeColors(
     background: Color(0xFFF0F8F4),
     surface: Color(0xFFFFFFFF),
     surfaceVariant: Color(0xFFE8F5EE),
