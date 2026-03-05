@@ -46,7 +46,7 @@ class PerfectNumberCardWidget extends StatelessWidget {
                 Text(
                   'Número Perfeito',
                   style: AppTextStyles.titleMedium.copyWith(
-                    color: AppColors.textPrimary,
+                    color: AppColors.of(context).textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -55,7 +55,7 @@ class PerfectNumberCardWidget extends StatelessWidget {
                       ? 'Divisores: ${result.divisorsExpression}'
                       : 'Soma dos divisores igual ao número',
                   style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.textSecondary,
+                    color: AppColors.of(context).textSecondary,
                   ),
                 ),
               ],

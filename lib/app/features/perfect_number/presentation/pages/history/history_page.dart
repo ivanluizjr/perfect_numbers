@@ -150,7 +150,7 @@ class _HistoryList extends StatelessWidget {
               child: Text(
                 dateLabel.toUpperCase(),
                 style: AppTextStyles.labelSmall.copyWith(
-                  color: AppColors.textMuted,
+                  color: AppColors.of(context).textMuted,
                   letterSpacing: 1.2,
                 ),
               ),

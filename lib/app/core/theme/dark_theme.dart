@@ -9,29 +9,29 @@ class DarkTheme {
   static ThemeData get theme => ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.background,
-    colorScheme: const ColorScheme.dark(
+    scaffoldBackgroundColor: AppColors.dark.background,
+    colorScheme: ColorScheme.dark(
       primary: AppColors.primary,
       onPrimary: AppColors.textOnPrimary,
-      primaryContainer: AppColors.cardElevated,
+      primaryContainer: AppColors.dark.cardElevated,
       onPrimaryContainer: AppColors.primary,
       secondary: AppColors.primaryDark,
-      onSecondary: AppColors.textPrimary,
-      surface: AppColors.surface,
-      onSurface: AppColors.textPrimary,
-      onSurfaceVariant: AppColors.textSecondary,
+      onSecondary: AppColors.dark.textPrimary,
+      surface: AppColors.dark.surface,
+      onSurface: AppColors.dark.textPrimary,
+      onSurfaceVariant: AppColors.dark.textSecondary,
       error: AppColors.error,
-      onError: AppColors.textPrimary,
-      outline: AppColors.border,
-      outlineVariant: AppColors.divider,
+      onError: AppColors.dark.textPrimary,
+      outline: AppColors.dark.border,
+      outlineVariant: AppColors.dark.divider,
     ),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       elevation: 0,
       centerTitle: true,
-      backgroundColor: AppColors.background,
-      foregroundColor: AppColors.textPrimary,
+      backgroundColor: AppColors.dark.background,
+      foregroundColor: AppColors.dark.textPrimary,
       surfaceTintColor: Colors.transparent,
-      systemOverlayStyle: SystemUiOverlayStyle(
+      systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
@@ -39,17 +39,17 @@ class DarkTheme {
       titleTextStyle: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
-        color: AppColors.textPrimary,
+        color: AppColors.dark.textPrimary,
       ),
-      iconTheme: IconThemeData(color: AppColors.textPrimary),
+      iconTheme: IconThemeData(color: AppColors.dark.textPrimary),
     ),
     cardTheme: CardThemeData(
       elevation: 0,
-      color: AppColors.card,
+      color: AppColors.dark.card,
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
+        side: BorderSide(color: AppColors.dark.border.withValues(alpha: 0.5)),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -75,13 +75,13 @@ class DarkTheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: AppColors.textSecondary,
+        foregroundColor: AppColors.dark.textSecondary,
         textStyle: AppTextStyles.bodyMedium,
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.surfaceVariant,
+      fillColor: AppColors.dark.surfaceVariant,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(28),
@@ -99,43 +99,51 @@ class DarkTheme {
         borderRadius: BorderRadius.circular(28),
         borderSide: const BorderSide(color: AppColors.error),
       ),
-      hintStyle: const TextStyle(color: AppColors.textMuted, fontSize: 16),
-      labelStyle: const TextStyle(color: AppColors.textSecondary),
+      hintStyle: TextStyle(color: AppColors.dark.textMuted, fontSize: 16),
+      labelStyle: TextStyle(color: AppColors.dark.textSecondary),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       elevation: 0,
-      backgroundColor: AppColors.surface,
+      backgroundColor: AppColors.dark.surface,
       selectedItemColor: AppColors.navSelected,
-      unselectedItemColor: AppColors.navUnselected,
+      unselectedItemColor: AppColors.dark.navUnselected,
       type: BottomNavigationBarType.fixed,
       showSelectedLabels: true,
       showUnselectedLabels: true,
       selectedLabelStyle: AppTextStyles.labelSmall,
       unselectedLabelStyle: AppTextStyles.labelSmall,
     ),
-    dividerTheme: const DividerThemeData(
-      color: AppColors.divider,
+    dividerTheme: DividerThemeData(
+      color: AppColors.dark.divider,
       thickness: 1,
       space: 1,
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.resolveWith((s) =>
-          s.contains(WidgetState.selected) ? AppColors.textOnPrimary : AppColors.textMuted),
-      trackColor: WidgetStateProperty.resolveWith((s) =>
-          s.contains(WidgetState.selected) ? AppColors.primary : AppColors.surfaceVariant),
+      thumbColor: WidgetStateProperty.resolveWith(
+        (s) =>
+            s.contains(WidgetState.selected)
+                ? AppColors.textOnPrimary
+                : AppColors.dark.textMuted,
+      ),
+      trackColor: WidgetStateProperty.resolveWith(
+        (s) =>
+            s.contains(WidgetState.selected)
+                ? AppColors.primary
+                : AppColors.dark.surfaceVariant,
+      ),
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: AppColors.primary,
     ),
     snackBarTheme: SnackBarThemeData(
-      backgroundColor: AppColors.cardElevated,
-      contentTextStyle: const TextStyle(color: AppColors.textPrimary),
+      backgroundColor: AppColors.dark.cardElevated,
+      contentTextStyle: TextStyle(color: AppColors.dark.textPrimary),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
-    tabBarTheme: const TabBarThemeData(
+    tabBarTheme: TabBarThemeData(
       labelColor: AppColors.primary,
-      unselectedLabelColor: AppColors.textMuted,
+      unselectedLabelColor: AppColors.dark.textMuted,
       indicatorColor: AppColors.primary,
       dividerColor: Colors.transparent,
       labelStyle: AppTextStyles.titleMedium,

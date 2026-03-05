@@ -50,7 +50,7 @@ class _SettingsView extends StatelessWidget {
                       onChanged: (_) => cubit.toggleTheme(),
                     ),
                   ),
-                  const Divider(height: 1),
+                  Divider(color: AppColors.of(context).border, height: 1),
                   _SettingsTile(
                     icon: Icons.translate_rounded,
                     title: context.l10n.language,
@@ -61,13 +61,13 @@ class _SettingsView extends StatelessWidget {
                         Text(
                           state.language,
                           style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.textSecondary,
+                            color: AppColors.of(context).textSecondary,
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(
+                        Icon(
                           Icons.chevron_right_rounded,
-                          color: AppColors.textMuted,
+                          color: AppColors.of(context).textMuted,
                           size: 20,
                         ),
                       ],
@@ -175,13 +175,13 @@ class _SettingsView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Divider(height: 1),
+                  Divider(color: AppColors.of(context).border, height: 1),
                   _SettingsTile(
                     icon: Icons.open_in_new_rounded,
                     title: context.l10n.historyLink,
-                    trailing: const Icon(
+                    trailing: Icon(
                       Icons.chevron_right_rounded,
-                      color: AppColors.textMuted,
+                      color: AppColors.of(context).primary,
                       size: 20,
                     ),
                     onTap:
@@ -191,14 +191,14 @@ class _SettingsView extends StatelessWidget {
                           ),
                         ),
                   ),
-                  const Divider(height: 1),
+                  Divider(color: AppColors.of(context).border, height: 1),
                   _SettingsTile(
                     icon: Icons.info_rounded,
                     title: context.l10n.appVersion,
                     trailing: Text(
                       'v1.0.0 (Ivan Junior)',
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.textMuted,
+                        color: AppColors.of(context).textMuted,
                       ),
                     ),
                   ),
