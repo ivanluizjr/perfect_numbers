@@ -1,4 +1,4 @@
-# :shield: Perfect Number
+# :shield: Perfect Numbers
 
 Este projeto foi um desafio proposto de fazer um app que encontre os números perfeitos, digitando um número ou digitando dois números entre um intervalo.
   
