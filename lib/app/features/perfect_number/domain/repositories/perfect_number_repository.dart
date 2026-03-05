@@ -4,5 +4,8 @@ import 'package:perfect_numbers/app/features/perfect_number/domain/entities/perf
 abstract class PerfectNumberRepository {
   Either<Failure, PerfectNumberResult> checkNumber(int number);
 
-  Either<Failure, List<PerfectNumberResult>> findInRange(int start, int end);
+  Future<Either<Failure, List<PerfectNumberResult>>> findInRange(
+    int start,
+    int end,
+  );
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
 import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/core/theme/app_text_styles.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/cubits/check_number/check_number_cubit.dart';
@@ -38,7 +39,7 @@ class _HomeViewState extends State<_HomeView> {
     return Scaffold(
       backgroundColor: AppColors.of(context).background,
       appBar: AppBar(
-        title: const Text('Números Perfeitos'),
+        title: Text(context.l10n.appTitle),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -58,7 +59,7 @@ class _HomeViewState extends State<_HomeView> {
                   'Σ',
                   style: TextStyle(
                     fontSize: 72,
-                    color: AppColors.primaryDark,
+                    color: AppColors.of(context).primaryDark,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
@@ -66,21 +67,21 @@ class _HomeViewState extends State<_HomeView> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Verificação de Número',
+              context.l10n.checkNumberTitle,
               style: AppTextStyles.headlineMedium.copyWith(
                 color: AppColors.of(context).textPrimary,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              'Descubra se o seu número é perfeito através da soma de seus divisores.',
+              context.l10n.checkNumberSubtitle,
               style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.primary,
+                color: AppColors.of(context).primary,
               ),
             ),
             const SizedBox(height: 24),
             Text(
-              'Insira um número',
+              context.l10n.enterNumber,
               style: AppTextStyles.labelMedium.copyWith(
                 color: AppColors.of(context).textSecondary,
               ),
@@ -93,7 +94,9 @@ class _HomeViewState extends State<_HomeView> {
                 color: AppColors.of(context).textPrimary,
                 fontSize: 16,
               ),
-              decoration: const InputDecoration(hintText: 'Ex: 6, 28, 496'),
+              decoration: InputDecoration(
+                hintText: context.l10n.enterNumberHint,
+              ),
               onSubmitted:
                   (_) =>
                       context.read<CheckNumberCubit>().check(_controller.text),
@@ -103,15 +106,17 @@ class _HomeViewState extends State<_HomeView> {
               onPressed:
                   () =>
                       context.read<CheckNumberCubit>().check(_controller.text),
-              child: const Text('Verificar Agora'),
+              child: Text(context.l10n.checkNow),
             ),
             const SizedBox(height: 24),
             // Result area
             BlocBuilder<CheckNumberCubit, CheckNumberState>(
               builder: (context, state) {
                 if (state is CheckNumberLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: AppColors.primary),
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.of(context).primary,
+                    ),
                   );
                 }
                 if (state is CheckNumberError) {
@@ -121,13 +126,15 @@ class _HomeViewState extends State<_HomeView> {
                       color: AppColors.of(context).errorSubtle,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: AppColors.error.withValues(alpha: 0.4),
+                        color: AppColors.of(
+                          context,
+                        ).error.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(
                       state.message,
                       style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.error,
+                        color: AppColors.of(context).error,
                       ),
                     ),
                   );
@@ -163,7 +170,7 @@ class _ResultCard extends StatelessWidget {
         border: Border.all(
           color:
               isPerfect
-                  ? AppColors.primary.withValues(alpha: 0.5)
+                  ? AppColors.of(context).primary.withValues(alpha: 0.5)
                   : AppColors.of(context).border.withValues(alpha: 0.5),
         ),
       ),
@@ -174,17 +181,23 @@ class _ResultCard extends StatelessWidget {
             children: [
               Icon(
                 isPerfect ? Icons.verified_rounded : Icons.cancel_rounded,
-                color: isPerfect ? AppColors.primary : AppColors.error,
+                color:
+                    isPerfect
+                        ? AppColors.of(context).primary
+                        : AppColors.of(context).error,
                 size: 28,
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   isPerfect
-                      ? '${result.number} é um número perfeito! 🎉'
-                      : '${result.number} não é um número perfeito',
+                      ? context.l10n.isPerfect(result.number)
+                      : context.l10n.isNotPerfect(result.number),
                   style: AppTextStyles.titleLarge.copyWith(
-                    color: isPerfect ? AppColors.primary : AppColors.error,
+                    color:
+                        isPerfect
+                            ? AppColors.of(context).primary
+                            : AppColors.of(context).error,
                   ),
                 ),
               ),
@@ -194,25 +207,31 @@ class _ResultCard extends StatelessWidget {
           Divider(color: AppColors.of(context).border),
           const SizedBox(height: 12),
           Text(
-            'Divisores próprios:',
+            context.l10n.properDivisors,
             style: AppTextStyles.labelMedium.copyWith(
               color: AppColors.of(context).textSecondary,
             ),
           ),
           const SizedBox(height: 4),
           Text(
-            result.divisors.isEmpty ? 'Nenhum' : result.divisors.join(', '),
+            result.divisors.isEmpty
+                ? context.l10n.none
+                : result.divisors.join(', '),
             style: AppTextStyles.bodyMedium.copyWith(
               color: AppColors.of(context).textPrimary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Soma: ${result.divisorSum} ${isPerfect ? "= ${result.number} ✓" : "≠ ${result.number}"}',
+            context.l10n.divisorSum(
+              result.divisorSum,
+              result.number,
+              isPerfect,
+            ),
             style: AppTextStyles.bodyMedium.copyWith(
               color:
                   isPerfect
-                      ? AppColors.primary
+                      ? AppColors.of(context).primary
                       : AppColors.of(context).textSecondary,
             ),
           ),
@@ -239,14 +258,14 @@ class _InfoCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.info_outline_rounded,
-                color: AppColors.primary,
+                color: AppColors.of(context).primary,
                 size: 20,
               ),
               const SizedBox(width: 8),
               Text(
-                'O que é um número perfeito?',
+                context.l10n.whatIsTitle,
                 style: AppTextStyles.titleMedium.copyWith(
                   color: AppColors.of(context).textPrimary,
                 ),
@@ -260,18 +279,15 @@ class _InfoCard extends StatelessWidget {
                 color: AppColors.of(context).textSecondary,
               ),
               children: [
-                const TextSpan(text: 'Na matemática, um '),
+                TextSpan(text: context.l10n.whatIsRichPart1),
                 TextSpan(
-                  text: 'número perfeito',
+                  text: context.l10n.whatIsRichBold,
                   style: TextStyle(
                     color: AppColors.of(context).textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const TextSpan(
-                  text:
-                      ' é um número inteiro para o qual a soma de todos os seus divisores positivos próprios (excluindo o próprio número) é igual ao próprio número.',
-                ),
+                TextSpan(text: context.l10n.whatIsRichPart2),
               ],
             ),
           ),
@@ -283,7 +299,7 @@ class _InfoCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              'Exemplo: O número 6 possui os divisores 1, 2 e 3.\n1 + 2 + 3 = 6. Portanto, 6 é perfeito.',
+              context.l10n.whatIsExample,
               style: AppTextStyles.bodySmall.copyWith(
                 color: AppColors.of(context).textMuted,
                 fontStyle: FontStyle.italic,

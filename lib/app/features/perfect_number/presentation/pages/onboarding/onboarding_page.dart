@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
 import 'package:perfect_numbers/app/core/routes/app_router.dart';
 import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/core/theme/app_text_styles.dart';
@@ -17,27 +18,6 @@ class _OnboardingSlide {
     required this.icon,
   });
 }
-
-const _slides = [
-  _OnboardingSlide(
-    title: 'Descubra a Perfeição\nMatemática',
-    subtitle:
-        'Um número perfeito é aquele que é igual à soma dos seus divisores próprios. Explore a beleza oculta na aritmética e desvende os segredos dos números gregos.',
-    icon: Icons.auto_awesome_rounded,
-  ),
-  _OnboardingSlide(
-    title: 'Verifique\nQualquer Número',
-    subtitle:
-        'Insira um número e descubra instantaneamente se ele é perfeito, com todos os seus divisores calculados.',
-    icon: Icons.calculate_rounded,
-  ),
-  _OnboardingSlide(
-    title: 'Explore\nIntervalos',
-    subtitle:
-        'Encontre todos os números perfeitos entre dois valores. 6, 28, 496, 8128... quantos você conhece?',
-    icon: Icons.search_rounded,
-  ),
-];
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -60,6 +40,24 @@ class _OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<_OnboardingView> {
   final _controller = PageController();
 
+  List<_OnboardingSlide> _getSlides(BuildContext context) => [
+    _OnboardingSlide(
+      title: context.l10n.slide1Title,
+      subtitle: context.l10n.slide1Subtitle,
+      icon: Icons.auto_awesome_rounded,
+    ),
+    _OnboardingSlide(
+      title: context.l10n.slide2Title,
+      subtitle: context.l10n.slide2Subtitle,
+      icon: Icons.calculate_rounded,
+    ),
+    _OnboardingSlide(
+      title: context.l10n.slide3Title,
+      subtitle: context.l10n.slide3Subtitle,
+      icon: Icons.search_rounded,
+    ),
+  ];
+
   @override
   void dispose() {
     _controller.dispose();
@@ -68,7 +66,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
 
   void _next(BuildContext context) {
     final cubit = context.read<OnboardingCubit>();
-    if (cubit.state < _slides.length - 1) {
+    if (cubit.state < _getSlides(context).length - 1) {
       cubit.nextPage();
       _controller.nextPage(
         duration: const Duration(milliseconds: 350),
@@ -94,7 +92,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Explorar',
+          context.l10n.onboardingExplore,
           style: TextStyle(
             color: AppColors.of(context).textPrimary,
             fontWeight: FontWeight.w600,
@@ -115,14 +113,15 @@ class _OnboardingViewState extends State<_OnboardingView> {
                   controller: _controller,
                   onPageChanged:
                       (i) => context.read<OnboardingCubit>().setPage(i),
-                  itemCount: _slides.length,
-                  itemBuilder: (_, i) => _SlidePage(slide: _slides[i]),
+                  itemCount: _getSlides(context).length,
+                  itemBuilder:
+                      (_, i) => _SlidePage(slide: _getSlides(context)[i]),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
                 child: DotIndicatorWidget(
-                  count: _slides.length,
+                  count: _getSlides(context).length,
                   current: currentPage,
                 ),
               ),
@@ -134,9 +133,9 @@ class _OnboardingViewState extends State<_OnboardingView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        currentPage == _slides.length - 1
-                            ? 'Começar'
-                            : 'Começar',
+                        currentPage == _getSlides(context).length - 1
+                            ? context.l10n.onboardingGetStarted
+                            : context.l10n.onboardingNext,
                       ),
                       const SizedBox(width: 8),
                       const Icon(Icons.arrow_forward_rounded),
@@ -147,7 +146,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
               TextButton(
                 onPressed: () => _finish(context),
                 child: Text(
-                  'Pular introdução',
+                  context.l10n.onboardingSkip,
                   style: AppTextStyles.bodyMedium.copyWith(
                     color: AppColors.of(context).textSecondary,
                   ),
@@ -180,7 +179,11 @@ class _SlidePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(24),
             ),
             child: Center(
-              child: Icon(slide.icon, size: 100, color: AppColors.primaryDark),
+              child: Icon(
+                slide.icon,
+                size: 100,
+                color: AppColors.of(context).primaryDark,
+              ),
             ),
           ),
           const SizedBox(height: 32),

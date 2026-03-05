@@ -26,14 +26,14 @@ class PerfectNumberCardWidget extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: AppColors.primaryDark,
+              color: AppColors.of(context).primaryDark,
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
             child: Text(
               '${result.number}',
               style: AppTextStyles.titleMedium.copyWith(
-                color: AppColors.primary,
+                color: AppColors.of(context).primary,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -62,9 +62,9 @@ class PerfectNumberCardWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Icon(
+          Icon(
             Icons.verified_rounded,
-            color: AppColors.primary,
+            color: AppColors.of(context).primary,
             size: 24,
           ),
         ],

@@ -3,7 +3,7 @@ import 'package:perfect_numbers/app/features/perfect_number/domain/entities/perf
 import 'package:perfect_numbers/app/features/perfect_number/domain/repositories/perfect_number_repository.dart';
 
 abstract class IFindPerfectNumbersInRangeUseCase {
-  Either<Failure, List<PerfectNumberResult>> call(int start, int end);
+  Future<Either<Failure, List<PerfectNumberResult>>> call(int start, int end);
 }
 
 class FindPerfectNumbersInRangeUseCaseImpl
@@ -13,7 +13,10 @@ class FindPerfectNumbersInRangeUseCaseImpl
   const FindPerfectNumbersInRangeUseCaseImpl(this.repository);
 
   @override
-  Either<Failure, List<PerfectNumberResult>> call(int start, int end) {
+  Future<Either<Failure, List<PerfectNumberResult>>> call(
+    int start,
+    int end,
+  ) async {
     if (start < 1) {
       return Left(
         const ValidationFailure(

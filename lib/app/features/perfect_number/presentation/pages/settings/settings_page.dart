@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
 import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/core/theme/app_text_styles.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/cubits/settings/settings_cubit.dart';
@@ -27,7 +28,7 @@ class _SettingsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.of(context).background,
       appBar: AppBar(
-        title: const Text('Ajustes'),
+        title: Text(context.l10n.settingsTitle),
         automaticallyImplyLeading: false,
       ),
       body: BlocBuilder<SettingsCubit, SettingsState>(
@@ -36,14 +37,14 @@ class _SettingsView extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              _SectionLabel(title: 'Preferências'),
+              _SectionLabel(title: context.l10n.preferences),
               const SizedBox(height: 8),
               _SettingsCard(
                 children: [
                   _SettingsTile(
                     icon: Icons.dark_mode_rounded,
-                    title: 'Tema Escuro',
-                    subtitle: 'Alternar entre modos claro e escuro',
+                    title: context.l10n.darkTheme,
+                    subtitle: context.l10n.darkThemeSubtitle,
                     trailing: Switch(
                       value: state.isDark,
                       onChanged: (_) => cubit.toggleTheme(),
@@ -52,8 +53,8 @@ class _SettingsView extends StatelessWidget {
                   Divider(color: AppColors.of(context).border, height: 1),
                   _SettingsTile(
                     icon: Icons.translate_rounded,
-                    title: 'Idioma',
-                    subtitle: 'Idioma de exibição do aplicativo',
+                    title: context.l10n.language,
+                    subtitle: context.l10n.languageSubtitle,
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -78,14 +79,14 @@ class _SettingsView extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              _SectionLabel(title: 'Cálculos'),
+              _SectionLabel(title: context.l10n.calculations),
               const SizedBox(height: 8),
               _SettingsCard(
                 children: [
                   _SettingsTile(
                     icon: Icons.notifications_active_rounded,
-                    title: 'Alertas de Cálculo',
-                    subtitle: 'Notificar quando cálculos longos terminarem',
+                    title: context.l10n.computationAlerts,
+                    subtitle: context.l10n.computationAlertsSubtitle,
                     trailing: Switch(
                       value: state.computationAlerts,
                       onChanged: (_) => cubit.toggleComputationAlerts(),
@@ -94,7 +95,7 @@ class _SettingsView extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              _SectionLabel(title: 'Sobre Números Perfeitos'),
+              _SectionLabel(title: context.l10n.aboutSection),
               const SizedBox(height: 8),
               _SettingsCard(
                 children: [
@@ -109,19 +110,19 @@ class _SettingsView extends StatelessWidget {
                               width: 40,
                               height: 40,
                               decoration: BoxDecoration(
-                                color: AppColors.primaryDark,
+                                color: AppColors.of(context).primaryDark,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.info_outline_rounded,
-                                color: AppColors.primary,
+                                color: AppColors.of(context).primary,
                                 size: 22,
                               ),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(
-                                'O que é um Número Perfeito?',
+                                context.l10n.aboutTitle,
                                 style: AppTextStyles.titleMedium.copyWith(
                                   color: AppColors.of(context).textPrimary,
                                 ),
@@ -131,7 +132,7 @@ class _SettingsView extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Em teoria dos números, um número perfeito é um inteiro positivo igual à soma de seus divisores positivos, excluindo o próprio número. Por exemplo, 6 tem divisores 1, 2 e 3, e 1 + 2 + 3 = 6.',
+                          context.l10n.aboutBody,
                           style: AppTextStyles.bodyMedium.copyWith(
                             color: AppColors.of(context).textSecondary,
                           ),
@@ -143,7 +144,7 @@ class _SettingsView extends StatelessWidget {
                     margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     height: 100,
                     decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
+                      gradient: AppColors.of(context).primaryGradient,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Stack(
@@ -155,16 +156,16 @@ class _SettingsView extends StatelessWidget {
                               Text(
                                 '6, 28, 496...',
                                 style: AppTextStyles.headlineLarge.copyWith(
-                                  color: AppColors.textOnPrimary,
+                                  color: AppColors.of(context).textOnPrimary,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
                               Text(
-                                'A SEQUÊNCIA DA PERFEIÇÃO',
+                                context.l10n.sequenceSlogan,
                                 style: AppTextStyles.labelSmall.copyWith(
-                                  color: AppColors.textOnPrimary.withValues(
-                                    alpha: 0.8,
-                                  ),
+                                  color: AppColors.of(
+                                    context,
+                                  ).textOnPrimary.withValues(alpha: 0.8),
                                   letterSpacing: 2,
                                 ),
                               ),
@@ -177,10 +178,10 @@ class _SettingsView extends StatelessWidget {
                   Divider(color: AppColors.of(context).border, height: 1),
                   _SettingsTile(
                     icon: Icons.open_in_new_rounded,
-                    title: 'História dos Números Perfeitos',
-                    trailing: const Icon(
+                    title: context.l10n.historyLink,
+                    trailing: Icon(
                       Icons.chevron_right_rounded,
-                      color: AppColors.primary,
+                      color: AppColors.of(context).primary,
                       size: 20,
                     ),
                     onTap:
@@ -193,9 +194,9 @@ class _SettingsView extends StatelessWidget {
                   Divider(color: AppColors.of(context).border, height: 1),
                   _SettingsTile(
                     icon: Icons.info_rounded,
-                    title: 'Versão do App',
+                    title: context.l10n.appVersion,
                     trailing: Text(
-                      'v2.4.0 (Emerald)',
+                      'v1.0.0 (Ivan Junior)',
                       style: AppTextStyles.bodySmall.copyWith(
                         color: AppColors.of(context).textMuted,
                       ),
@@ -228,7 +229,7 @@ class _SettingsView extends StatelessWidget {
             children: [
               const SizedBox(height: 16),
               Text(
-                'Selecionar idioma',
+                context.l10n.selectLanguage,
                 style: AppTextStyles.titleLarge.copyWith(
                   color: AppColors.of(context).textPrimary,
                 ),
@@ -244,9 +245,9 @@ class _SettingsView extends StatelessWidget {
                   ),
                   trailing:
                       lang == current
-                          ? const Icon(
+                          ? Icon(
                             Icons.check_rounded,
-                            color: AppColors.primary,
+                            color: AppColors.of(context).primary,
                           )
                           : null,
                   onTap: () {
@@ -270,7 +271,7 @@ class _SectionLabel extends StatelessWidget {
     return Text(
       title.toUpperCase(),
       style: AppTextStyles.labelSmall.copyWith(
-        color: AppColors.primary,
+        color: AppColors.of(context).primary,
         letterSpacing: 1.5,
       ),
     );
@@ -322,7 +323,7 @@ class _SettingsTile extends StatelessWidget {
           color: AppColors.of(context).surfaceVariant,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(icon, color: AppColors.primary, size: 22),
+        child: Icon(icon, color: AppColors.of(context).primary, size: 22),
       ),
       title: Text(
         title,

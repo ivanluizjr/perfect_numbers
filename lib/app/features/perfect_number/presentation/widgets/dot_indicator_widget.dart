@@ -25,7 +25,7 @@ class DotIndicatorWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color:
                 active
-                    ? AppColors.primary
+                    ? AppColors.of(context).primary
                     : AppColors.of(context).surfaceVariant,
             borderRadius: BorderRadius.circular(4),
           ),
