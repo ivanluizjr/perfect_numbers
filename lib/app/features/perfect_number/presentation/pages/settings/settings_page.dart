@@ -37,7 +37,6 @@ class _SettingsView extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              _SectionLabel(title: context.l10n.preferences),
               const SizedBox(height: 8),
               _SettingsCard(
                 children: [
@@ -78,25 +77,8 @@ class _SettingsView extends StatelessWidget {
                   ),
                 ],
               ),
+
               const SizedBox(height: 24),
-              _SectionLabel(title: context.l10n.calculations),
-              const SizedBox(height: 8),
-              _SettingsCard(
-                children: [
-                  _SettingsTile(
-                    icon: Icons.notifications_active_rounded,
-                    title: context.l10n.computationAlerts,
-                    subtitle: context.l10n.computationAlertsSubtitle,
-                    trailing: Switch(
-                      value: state.computationAlerts,
-                      onChanged: (_) => cubit.toggleComputationAlerts(),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              _SectionLabel(title: context.l10n.aboutSection),
-              const SizedBox(height: 8),
               _SettingsCard(
                 children: [
                   Padding(
@@ -258,22 +240,6 @@ class _SettingsView extends StatelessWidget {
               const SizedBox(height: 16),
             ],
           ),
-    );
-  }
-}
-
-class _SectionLabel extends StatelessWidget {
-  final String title;
-  const _SectionLabel({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title.toUpperCase(),
-      style: AppTextStyles.labelSmall.copyWith(
-        color: AppColors.of(context).primary,
-        letterSpacing: 1.5,
-      ),
     );
   }
 }
