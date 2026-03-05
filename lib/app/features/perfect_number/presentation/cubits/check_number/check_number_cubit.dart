@@ -13,7 +13,7 @@ class CheckNumberCubit extends Cubit<CheckNumberState> {
     : super(const CheckNumberInitial());
 
   Future<void> check(String input) async {
-    final n = int.tryParse(input.trim());
+    final n = int.tryParse(input.trim().replaceAll('.', ''));
     if (n == null) {
       emit(
         const CheckNumberError('Por favor, insira um número inteiro válido.'),

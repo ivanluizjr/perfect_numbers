@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
 import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/core/theme/app_text_styles.dart';
@@ -14,78 +13,47 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => GetIt.I<HistoryCubit>()..load(),
-      child: const _HistoryView(),
-    );
-  }
-}
-
-class _HistoryView extends StatelessWidget {
-  const _HistoryView();
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: AppColors.of(context).background,
-        appBar: AppBar(
-          title: Text(context.l10n.historyTitle),
-          automaticallyImplyLeading: false,
-          actions: [
-            BlocBuilder<HistoryCubit, HistoryState>(
-              builder: (context, state) {
-                if (state is HistoryLoaded) {
-                  return IconButton(
-                    icon: const Icon(Icons.delete_sweep_rounded),
-                    color: AppColors.of(context).primary,
-                    onPressed: () => _confirmClear(context),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
-          bottom: TabBar(
-            tabs: [
-              Tab(text: context.l10n.tabAll),
-              Tab(text: context.l10n.tabFavorites),
-            ],
-          ),
-        ),
-        body: BlocBuilder<HistoryCubit, HistoryState>(
-          builder: (context, state) {
-            if (state is HistoryLoading) {
-              return Center(
-                child: CircularProgressIndicator(
+    return Scaffold(
+      backgroundColor: AppColors.of(context).background,
+      appBar: AppBar(
+        title: Text(context.l10n.historyTitle),
+        automaticallyImplyLeading: false,
+        actions: [
+          BlocBuilder<HistoryCubit, HistoryState>(
+            builder: (context, state) {
+              if (state is HistoryLoaded) {
+                return IconButton(
+                  icon: const Icon(Icons.delete_sweep_rounded),
                   color: AppColors.of(context).primary,
-                ),
-              );
-            }
-            if (state is HistoryEmpty) {
-              return EmptyStateWidget(
-                icon: Icons.history_rounded,
-                message: context.l10n.noHistory,
-                subtitle: context.l10n.noHistorySubtitle,
-              );
-            }
-            if (state is HistoryLoaded) {
-              return TabBarView(
-                children: [
-                  _HistoryList(entries: state.entries),
-                  state.favorites.isEmpty
-                      ? EmptyStateWidget(
-                        icon: Icons.favorite_border_rounded,
-                        message: context.l10n.noFavorites,
-                      )
-                      : _HistoryList(entries: state.favorites),
-                ],
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
+                  onPressed: () => _confirmClear(context),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ],
+      ),
+      body: BlocBuilder<HistoryCubit, HistoryState>(
+        builder: (context, state) {
+          if (state is HistoryLoading) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColors.of(context).primary,
+              ),
+            );
+          }
+          if (state is HistoryEmpty) {
+            return EmptyStateWidget(
+              icon: Icons.history_rounded,
+              message: context.l10n.noHistory,
+              subtitle: context.l10n.noHistorySubtitle,
+            );
+          }
+          if (state is HistoryLoaded) {
+            return _HistoryList(entries: state.entries);
+          }
+          return const SizedBox.shrink();
+        },
       ),
     );
   }
@@ -194,7 +162,6 @@ class _HistoryEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<HistoryCubit>();
     final isSingle = entry.type == HistoryEntryType.singleCheck;
     final timeStr =
         '${entry.timestamp.hour.toString().padLeft(2, '0')}:${entry.timestamp.minute.toString().padLeft(2, '0')}';
@@ -269,50 +236,6 @@ class _HistoryEntryCard extends StatelessWidget {
                   style: AppTextStyles.bodySmall.copyWith(
                     color: AppColors.of(context).textSecondary,
                   ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        side: BorderSide(
-                          color: AppColors.of(
-                            context,
-                          ).primary.withValues(alpha: 0.5),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        foregroundColor: AppColors.of(context).primary,
-                        textStyle: AppTextStyles.labelSmall,
-                      ),
-                      child: Text(
-                        isSingle
-                            ? context.l10n.viewDetails
-                            : context.l10n.viewList,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      onTap: () => cubit.toggleFavorite(entry.id),
-                      child: Icon(
-                        entry.isFavorite
-                            ? Icons.favorite_rounded
-                            : Icons.favorite_border_rounded,
-                        size: 20,
-                        color:
-                            entry.isFavorite
-                                ? AppColors.of(context).primary
-                                : AppColors.of(context).textMuted,
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
