@@ -75,10 +75,9 @@ Future<void> _usecases() async {
 
 Future<void> _cubits() async {
   sl.registerLazySingleton(() => SettingsCubit());
-
   sl.registerFactory(() => CheckNumberCubit(sl(), sl()));
   sl.registerFactory(() => RangeSearchCubit(sl(), sl()));
-  sl.registerFactory(() => HistoryCubit(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => HistoryCubit(sl(), sl(), sl()));
   sl.registerFactory(() => MainCubit(0));
   sl.registerFactory(() => OnboardingCubit(sl()));
 }

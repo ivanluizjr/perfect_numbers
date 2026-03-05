@@ -13,8 +13,8 @@ class RangeSearchCubit extends Cubit<RangeSearchState> {
     : super(const RangeSearchInitial());
 
   Future<void> search(String startInput, String endInput) async {
-    final start = int.tryParse(startInput.trim());
-    final end = int.tryParse(endInput.trim());
+    final start = int.tryParse(startInput.trim().replaceAll('.', ''));
+    final end = int.tryParse(endInput.trim().replaceAll('.', ''));
     if (start == null || end == null) {
       emit(const RangeSearchError('Insira valores numéricos válidos.'));
       return;

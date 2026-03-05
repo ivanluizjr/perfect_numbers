@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
@@ -9,6 +10,7 @@ import 'package:perfect_numbers/app/features/perfect_number/presentation/cubits/
 import 'package:perfect_numbers/app/features/perfect_number/presentation/widgets/empty_state_widget.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/widgets/perfect_number_card_widget.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/widgets/section_header_widget.dart';
+import 'package:perfect_numbers/app/features/perfect_number/presentation/widgets/thousand_separator_formatter.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -85,6 +87,10 @@ class _SearchViewState extends State<_SearchView> {
                             TextField(
                               controller: _startController,
                               keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                ThousandSeparatorFormatter(),
+                              ],
                               style: TextStyle(
                                 color: AppColors.of(context).textPrimary,
                                 fontSize: 16,
@@ -109,12 +115,16 @@ class _SearchViewState extends State<_SearchView> {
                             TextField(
                               controller: _endController,
                               keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                ThousandSeparatorFormatter(),
+                              ],
                               style: TextStyle(
                                 color: AppColors.of(context).textPrimary,
                                 fontSize: 16,
                               ),
                               decoration: const InputDecoration(
-                                hintText: '1000',
+                                hintText: '1.000',
                               ),
                             ),
                           ],

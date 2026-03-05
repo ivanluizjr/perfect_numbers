@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:perfect_numbers/app/core/l10n/app_localizations.dart';
@@ -6,6 +7,7 @@ import 'package:perfect_numbers/app/core/theme/app_colors.dart';
 import 'package:perfect_numbers/app/core/theme/app_text_styles.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/cubits/check_number/check_number_cubit.dart';
 import 'package:perfect_numbers/app/features/perfect_number/presentation/cubits/check_number/check_number_state.dart';
+import 'package:perfect_numbers/app/features/perfect_number/presentation/widgets/thousand_separator_formatter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -90,6 +92,10 @@ class _HomeViewState extends State<_HomeView> {
             TextField(
               controller: _controller,
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                ThousandSeparatorFormatter(),
+              ],
               style: TextStyle(
                 color: AppColors.of(context).textPrimary,
                 fontSize: 16,
