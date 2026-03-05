@@ -143,7 +143,6 @@ class TransactionLimitFailure extends PaymentFailure {
   });
 }
 
-/// Chave Pix inválida.
 class InvalidPixKeyFailure extends PaymentFailure {
   const InvalidPixKeyFailure({
     super.message = 'Chave Pix inválida.',

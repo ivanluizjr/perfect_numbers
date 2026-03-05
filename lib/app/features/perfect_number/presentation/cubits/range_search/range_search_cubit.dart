@@ -21,9 +21,8 @@ class RangeSearchCubit extends Cubit<RangeSearchState> {
     }
 
     emit(const RangeSearchLoading());
-    await Future.delayed(const Duration(milliseconds: 400));
 
-    final either = _findUseCase(start, end);
+    final either = await _findUseCase(start, end);
     either.fold((failure) => emit(RangeSearchError(failure.message)), (
       results,
     ) {

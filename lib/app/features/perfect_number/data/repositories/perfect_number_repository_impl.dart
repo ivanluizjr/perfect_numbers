@@ -20,9 +20,12 @@ class PerfectNumberRepositoryImpl implements PerfectNumberRepository {
   }
 
   @override
-  Either<Failure, List<PerfectNumberResult>> findInRange(int start, int end) {
+  Future<Either<Failure, List<PerfectNumberResult>>> findInRange(
+    int start,
+    int end,
+  ) async {
     try {
-      return Right(dataSource.findInRange(start, end));
+      return Right(await dataSource.findInRangeIsolate(start, end));
     } on AppException catch (e) {
       return Left(UnknownFailure(message: e.message, details: e.details));
     } catch (e) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Internal class holding a full themed color palette
 class AppThemeColors {
   final Color background;
   final Color surface;
@@ -60,7 +59,6 @@ class AppThemeColors {
 class AppColors {
   AppColors._();
 
-  // Theme-invariant static constants
   static const Color primary = Color(0xFF2ECC71);
   static const Color primaryLight = Color(0xFF00E676);
   static const Color primaryDark = Color(0xFF1B9E55);
@@ -77,7 +75,6 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  // ── Theme-aware accessor ──────────────────────────────────────────────────
   static AppThemeColors of(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark ? dark : light;
   }
