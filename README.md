@@ -48,6 +48,8 @@ A UX/UI deste projeto foi desenvolvido pela ferramenta Stitch da Google passando
     sabemos o Flutter ele utiliza uma única thread que fica responsável por processar animações, renderizar frames, executar o código dart. Com um intervalo de cálculo de milhões de interações
     matemáticas, resumindo, tudo irá travar e o app não vai mais responder. A busca em intervalo utiliza Isolate.run() para executar o cálculo computacionalmente intensivo em uma thread separada,           garantindo que a interface permaneça responsiva mesmo em intervalos de milhões de números.
 
+  - O projeto possui 27 testes automatizados cobrindo as camadas de Data e Domain: testes unitários diretos para o algoritmo de cálculo de números perfeitos, e testes com mocks (Mocktail) para os Use       Cases, validando regras de negócio, tratamento de entradas inválidas, e propagação de erros entre camadas. Os testes do Use Case de busca em intervalo são assíncronos, refletindo a execução via         Isolate.
+
   - Para rodar o projeto você precisa clonar o mesmo e executar em uma IDE de sua preferência utilizando um emulador ou device ou gerar um APK e rodar em seu aparelho Android.
 
   - **IMPORTANTE**, o projeto foi desenvolvido na SDK 3.11.1 do Dart e Flutter SDK 3.41.3, podendo talvez não rodar em SDKs inferiores.
